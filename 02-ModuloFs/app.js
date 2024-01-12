@@ -50,10 +50,10 @@ const fs = require('fs')
 
 // Eliminar archivos
 
-// fs.unlink('./prueba.js', (err) => {
-//   if(err){
-//     throw err
-//   }
+fs.unlink('./prueba.js', (err) => {
+  if(err){
+    throw err
+  }
 
-//   console.log('Archivo eliminado')
-// })
+  console.log('Archivo eliminado')
+})
