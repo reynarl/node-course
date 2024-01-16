@@ -14,7 +14,7 @@
  const http = require('http')
 
  const port = 3000
- const cursos = require('./cursos')
+ const { infoCursos } = require('./cursos')
 
  const server = http.createServer((req, res) => {
   const {method} = req // obtenemos el tipo de método (GET,PUT,POST, DELETE...)
@@ -35,17 +35,18 @@
   console.log(path)
 
   if(path === '/'){
-    res.statusCode = 200
+    // el status por defecto es 200 hasta que se indique uno nuevo, asi que no existe necesidad de ponerlo
+    // res.statusCode = 200
+
+    //podemos configurar la cabecera con res.writeHead
+    res.writeHead(200, {'Content-Type': 'application/json'})
     return res.end('Bienvenido al servidor y API con Node.js')
   } else if (path === '/cursos'){
-    res.statusCode = 200
-    return res.end(JSON.stringify(cursos.infoCursos))
+    return res.end(JSON.stringify(infoCursos))
   } else if (path === '/cursos/programacion') {
-    res.statusCode = 200
-    return res.end(JSON.stringify(cursos.infoCursos.programacion))
+    return res.end(JSON.stringify(infoCursos.programacion))
   } else if(path === '/cursos/matematicas'){
-    res.statusCode = 200
-    return res.end(JSON.stringify(cursos.infoCursos.matematicas))
+    return res.end(JSON.stringify(infoCursos.matematicas))
   } else {
     res.statusCode = 404
     return res.end('Pagina no encontrada')
@@ -57,7 +58,6 @@
   console.log(path)
 
   if(path === '/cursos/programacion'){
-    res.statusCode = 200
     return res.end('El servidor recibio una solicitud post')
   }
  }
@@ -67,7 +67,6 @@
   console.log(path)
 
   if(path === '/cursos/matematicas'){
-    res.statusCode = 200
     return res.end('El servicio resibio una solicitud PUT')
   }
  }
