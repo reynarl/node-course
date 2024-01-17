@@ -5,7 +5,7 @@ let infoCursos = {
       title: 'Learn Python',
       language: 'python',
       views: 1000,
-      level: 'basic'
+      level: 'intermediate'
     },
     {
       id:2,
@@ -15,10 +15,17 @@ let infoCursos = {
       level: 'intermediate'
     },
     {
-      id:3,
+      id: 3,
       title: 'Learn SQL',
       language: 'SQL',
       views: 2500,
+      level: 'basic'
+    },
+    {
+      id: 4,
+      title: 'Introduction to Python',
+      language: 'python',
+      views: 2000,
       level: 'basic'
     }
   ],

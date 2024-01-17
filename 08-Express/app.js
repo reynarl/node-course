@@ -13,6 +13,7 @@ app.get('/cursos', (req, res) => {
 
 app.get('/cursos/programacion', (req, res) => {
   res.send(JSON.stringify(infoCursos.programacion))
+  
 })
 
 app.get('/cursos/matematicas', (req, res) => {
@@ -22,13 +23,24 @@ app.get('/cursos/matematicas', (req, res) => {
 //
 app.get('/cursos/programacion/:language', (req, res) => {
   // console.log(req.params.language) // { language: 'SQL' }
-  const language = req.params.language
+  // const language = req.params
+
+  console.log(req.query.ordenar) 
+  
+  const { params: { language } } = req
+  const { query: { ordenar }} = req
   const result = infoCursos.programacion.filter(course => course.language === language)
   if(result.length === 0){
     res.status(404).send('No se encontraron los registros')
   }
 
+  if(ordenar === 'vistas'){
+    return res.send(result.sort((a,b) => b.views - a.views))
+  }
+
   res.send(JSON.stringify(result))
+
+  
 })
 
 //ruta que filtra las materias de matematicas por nivel
@@ -47,4 +59,3 @@ app.listen(PORT, () => {
   console.log( `El servidor está escuchando en el puerto http://localhost:${PORT}` )
 })
 
-// console.log(infoCursos)
