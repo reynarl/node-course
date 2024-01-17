@@ -3,6 +3,15 @@ const app = express()
 
 const { infoCursos } = require('./cursos')
 
+//Routers
+const routerProgramming = express.Router()
+app.use('/cursos/programacion', routerProgramming)
+
+const routerMath = express.Router()
+app.use('/cursos/matematicas', routerMath)
+
+
+//Routing
 app.get('/', (req, res) => {
   res.send('Initialize server')
 })
@@ -11,21 +20,15 @@ app.get('/cursos', (req, res) => {
   res.send(JSON.stringify(infoCursos))
 })
 
-app.get('/cursos/programacion', (req, res) => {
+// programacion
+routerProgramming.get('/', (req, res) => {
   res.send(JSON.stringify(infoCursos.programacion))
   
 })
 
-app.get('/cursos/matematicas', (req, res) => {
-  res.send(JSON.stringify(infoCursos.matematicas))
-})
-
-//
-app.get('/cursos/programacion/:language', (req, res) => {
+routerProgramming.get('/:language', (req, res) => {
   // console.log(req.params.language) // { language: 'SQL' }
   // const language = req.params
-
-  console.log(req.query.ordenar) 
   
   const { params: { language } } = req
   const { query: { ordenar }} = req
@@ -39,12 +42,15 @@ app.get('/cursos/programacion/:language', (req, res) => {
   }
 
   res.send(JSON.stringify(result))
+})
 
-  
+// Matematicas
+routerMath.get('/', (req, res) => {
+  res.send(JSON.stringify(infoCursos.matematicas))
 })
 
 //ruta que filtra las materias de matematicas por nivel
-app.get('/cursos/matematicas/:level', (req, res) => {
+routerMath.get('/:level', (req, res) => {
   const level = req.params.level
   const result = infoCursos.matematicas.filter(course => course.level === level)
   if(result.length === 0){
