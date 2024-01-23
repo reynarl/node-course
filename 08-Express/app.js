@@ -16,7 +16,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/cursos', (req, res) => {
-  res.send(JSON.stringify(infoCursos))
+  res.send(infoCursos)
 })
 
 const PORT = process.env.PORT || 3000

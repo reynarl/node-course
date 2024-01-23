@@ -8,7 +8,7 @@ const { infoCursos: { programacion } } = require('../cursos')
 routerProgramming.use(express.json())
 
 routerProgramming.get('/', (req, res) => {
-  res.send(JSON.stringify(programacion))
+  res.json(programacion)
 })
 
 routerProgramming.get('/:language', (req, res) => {
@@ -19,20 +19,22 @@ routerProgramming.get('/:language', (req, res) => {
   const { query: { ordenar } } = req
   const result = programacion.filter(course => course.language === language)
   if (result.length === 0) {
-    res.status(404).send('No se encontraron los registros')
+    // res.status(404).send('No se encontraron los registros')
+    //enviamos una respuesta vacia con el método end()
+    return res.status(404).end()
   }
 
   if (ordenar === 'vistas') {
-    return res.send(result.sort((a, b) => b.views - a.views))
+    return res.json(result.sort((a, b) => b.views - a.views))
   }
 
-  res.send(JSON.stringify(result))
+  res.json(result)
 })
 
 routerProgramming.post('/', (request, response) => {
   let newCourse = request.body
   programacion.push(newCourse)
-  response.send(JSON.stringify(programacion))
+  response.json(programacion)
 })
 
 routerProgramming.put('/:id', (req, res) => {
@@ -46,7 +48,7 @@ routerProgramming.put('/:id', (req, res) => {
     programacion[index] = editCourse
   }
 
-  res.send(JSON.stringify(programacion))
+  res.json(programacion)
 })
 
 routerProgramming.patch('/:id', (req, res) => {
@@ -59,7 +61,7 @@ routerProgramming.patch('/:id', (req, res) => {
     const courseToModify = programacion[index]
     Object.assign(courseToModify, editCourse)
   }
-  res.send(JSON.stringify(programacion))
+  res.json(programacion)
 })
 
 routerProgramming.delete('/:id', (req, res) => {
@@ -71,8 +73,7 @@ routerProgramming.delete('/:id', (req, res) => {
     programacion.splice(index, 1)
   }
 
-  res.send(JSON.stringify(programacion))
-
+  res.json(programacion)
 })
 
 module.exports = routerProgramming
